@@ -52,8 +52,15 @@ const configuration_list = Object.keys(experiment).filter(key=>{
 
 
 
-  const exportToJSON = () => {
-    const responses = experiment?.responses
+const exportToJSON = () => {
+
+  console.log("export to Json is being called")
+    console.log("export to Json is being called");
+  const responses = experiment?.responses || [];
+  if (responses.length === 0) {
+    console.warn("No responses to export");
+    return;
+  }
     const allScores = responses?.map(res => res.metrics.overall)
     const[a,b,c] = allScores||[]
     const maxScore = Math.max(a,b,c)
@@ -78,6 +85,7 @@ const configuration_list = Object.keys(experiment).filter(key=>{
         best_overall_score: maxScore
       }
     };
+    console.log({exportData})
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const anc:HTMLAnchorElement = document.createElement('a');
@@ -92,7 +100,7 @@ const configuration_list = Object.keys(experiment).filter(key=>{
 
   
 
-      console.log(experiment)
+      // console.log(experiment)
 
   return (
     <header className="bg-black/30 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50">
@@ -130,8 +138,8 @@ const configuration_list = Object.keys(experiment).filter(key=>{
  <div className="relative">
 
             <button
-            onClick={() => {exportToJSON()}}
-            className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2">
+            onClick={exportToJSON}
+            className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2 cursor-pointer">
             <Download className="w-4 h-4" />
             Export Results
           </button>
@@ -149,7 +157,7 @@ const configuration_list = Object.keys(experiment).filter(key=>{
                       <div className="p-2">
                         <button
                           onClick={exportToJSON}
-                          className="w-full text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-all group"
+                          className="w-full text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-all group "
                         >
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:bg-blue-500/30 transition-all">

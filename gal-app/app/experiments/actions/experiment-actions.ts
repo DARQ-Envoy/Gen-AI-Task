@@ -99,8 +99,8 @@ export async function createExperiment(data: {
           cache: 'no-store',
         });
         
-        console.log('[Server] Response status:', response.status, 'OK:', response.ok);
-        
+        // console.log('[Server] Response status:', response.status, 'OK:', response.ok);
+        console.log({backendUrl})
         if (!response.ok) {
           const errorText = await response.text();
           console.error('[Server] Backend API error:', response.status, errorText);
@@ -110,7 +110,7 @@ export async function createExperiment(data: {
         const result = await response.json();
         
         // Print the backend response
-        console.log('[Server] Backend Response:', JSON.stringify(result, null, 2));
+        // console.log('[Server] Backend Response:', JSON.stringify(result, null, 2));
         
         // Validate response structure
         if (!result.responses || !Array.isArray(result.responses)) {
@@ -144,7 +144,7 @@ export async function createExperiment(data: {
         
         // Note: revalidatePath cannot be called here - it's in a background async function
         // The frontend polling will pick up the changes automatically
-        console.log('[Server] Experiment completed successfully:', id);
+        // console.log('[Server] Experiment completed successfully:', id);
       }
     } catch (error) {
       console.error('[Server] Error processing experiment:', error);
