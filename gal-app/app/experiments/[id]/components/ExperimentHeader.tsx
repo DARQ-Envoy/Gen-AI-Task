@@ -85,7 +85,7 @@ const exportToJSON = () => {
         best_overall_score: maxScore
       }
     };
-    console.log({exportData})
+    console.log({exportData}, {responses})
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const anc:HTMLAnchorElement = document.createElement('a');
