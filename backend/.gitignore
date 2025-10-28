@@ -1,0 +1,47 @@
+# Environment variables
+.env
+.env.*
+
+# Python virtual environment
+gen_env/
+venv/
+ENV/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Flask stuff
+instance/
+.webassets-cache
+
+# Coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+coverage.xml
+*.cover
+
+# Logs
+*.log
+logs/
+logging/
+
+# Local development configuration
+config.py
+local_settings.py
