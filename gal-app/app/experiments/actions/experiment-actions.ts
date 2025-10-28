@@ -141,6 +141,7 @@ export async function createExperiment(data: {
             metrics
           };
         });
+  console.log({experiment})
         
         // Note: revalidatePath cannot be called here - it's in a background async function
         // The frontend polling will pick up the changes automatically
@@ -160,7 +161,6 @@ export async function createExperiment(data: {
       }
     }
   })();
-  
   return id;
 }
 

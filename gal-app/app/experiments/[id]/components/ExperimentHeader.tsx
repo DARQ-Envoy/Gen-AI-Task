@@ -3,7 +3,8 @@
 
 import Link from 'next/link';
 import { ArrowLeft, BarChart3, Calendar, Clock, Download } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getExperiment } from '../../actions/experiment-actions';
 
 interface Experiment {
   id: string;
@@ -32,7 +33,7 @@ interface ExperimentHeaderProps {
   experiment: Experiment;
 }
 
-export function ExperimentHeader({ experiment }: ExperimentHeaderProps) {
+export function ExperimentHeader({ experiment:initialExperiment }: ExperimentHeaderProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed': return 'text-green-400 bg-green-500/20';
@@ -42,21 +43,35 @@ export function ExperimentHeader({ experiment }: ExperimentHeaderProps) {
     }
   };
   const [showExportMenu, setShowExportMenu] = useState(false);
-
+  const [experiment, setExperiment] = useState<Experiment>(initialExperiment);
 const configuration_list = Object.keys(experiment).filter(key=>{
   if(key.includes("config_")){
     return experiment[key as "config_1"|"config_2"|"config_3"]
   }
 }
 )
+useEffect(() => {
+    if (experiment.status === 'pending' || experiment.status === 'running') {
+      const interval = setInterval(async () => {
+        try {
+          const updated = await getExperiment(experiment.id);
+          setExperiment(updated);
+        } catch (error) {
+          console.error('Error fetching experiment:', error);
+        }
+      }, 1000); // Poll every 1 second
+
+      return () => clearInterval(interval);
+    }
+  }, [experiment.id, experiment.status]);
 
 
 
 const exportToJSON = () => {
 
-  console.log("export to Json is being called")
     console.log("export to Json is being called");
   const responses = experiment?.responses || [];
+  console.log({responses}, {experiment})
   if (responses.length === 0) {
     console.warn("No responses to export");
     return;
