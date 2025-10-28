@@ -23,6 +23,7 @@ interface Experiment {
     id: string;
     config: string;
     text: string;
+    params: { temperature: number; top_p: number; max_tokens: number };
     metrics: {
       coherence: number;
       completeness: number;
